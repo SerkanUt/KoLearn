@@ -1,43 +1,59 @@
-/**
- * Pastel color palette for Korean language learning app (Lingoistics).
- * Light and dark modes use soft pastels for a calm, study-friendly look.
- */
-
-// Pastel accent colors
-const tintLight = '#c4a7e7';   // pastel lavender
-const tintDark = '#e8d5f2';    // lighter lavender for dark mode
+const accent = "#4338CA";
+const accentLight = "#6366F1";
 
 export const Colors = {
   light: {
-    text: '#5c4d6d',
-    background: '#faf5ff',       // very light lavender
-    tint: tintLight,
-    icon: '#8b7a9e',
-    tabIconDefault: '#b8a9c4',
-    tabIconSelected: tintLight,
-    border: '#e9d5ff',
-    placeholder: '#b8a9c4',
-    card: '#ffffff',
-    cardBorder: '#f3e8ff',
-    pastelPink: '#fce7f3',
-    pastelMint: '#d1fae5',
-    pastelPeach: '#ffedd5',
-    pastelSky: '#e0f2fe',
+    text: "#111827",
+    textSecondary: "#6B7280",
+    background: "#F8F9FB",
+    tint: accent,
+    tintLight: accentLight,
+    icon: "#9CA3AF",
+    tabIconDefault: "#9CA3AF",
+    tabIconSelected: accent,
+    border: "#E5E7EB",
+    placeholder: "#9CA3AF",
+    card: "#FFFFFF",
+    cardBorder: "#E5E7EB",
+    accent,
+    accentMuted: "#EEF2FF",
+    success: "#059669",
+    successMuted: "#ECFDF5",
+    warning: "#D97706",
+    warningMuted: "#FFFBEB",
+    error: "#DC2626",
+    errorMuted: "#FEF2F2",
+    sidebar: "#FFFFFF",
+    sidebarActive: "#EEF2FF",
+    shadow: "rgba(17, 24, 39, 0.06)",
+    overlay: "rgba(17, 24, 39, 0.45)",
   },
   dark: {
-    text: '#e9d5ff',
-    background: '#2e1065',      // deep lavender
-    tint: tintDark,
-    icon: '#c4b5fd',
-    tabIconDefault: '#7c6ea8',
-    tabIconSelected: tintDark,
-    border: '#5b21b6',
-    placeholder: '#7c6ea8',
-    card: '#3b0764',
-    cardBorder: '#5b21b6',
-    pastelPink: '#831843',
-    pastelMint: '#064e3b',
-    pastelPeach: '#9a3412',
-    pastelSky: '#0c4a6e',
+    text: "#F9FAFB",
+    textSecondary: "#9CA3AF",
+    background: "#0F1117",
+    tint: accentLight,
+    tintLight: "#818CF8",
+    icon: "#6B7280",
+    tabIconDefault: "#6B7280",
+    tabIconSelected: accentLight,
+    border: "#1F2937",
+    placeholder: "#6B7280",
+    card: "#161B22",
+    cardBorder: "#1F2937",
+    accent: accentLight,
+    accentMuted: "#1E1B4B",
+    success: "#34D399",
+    successMuted: "#064E3B",
+    warning: "#FBBF24",
+    warningMuted: "#451A03",
+    error: "#F87171",
+    errorMuted: "#450A0A",
+    sidebar: "#161B22",
+    sidebarActive: "#1E1B4B",
+    shadow: "rgba(0, 0, 0, 0.4)",
+    overlay: "rgba(0, 0, 0, 0.6)",
   },
 };
+
+export type ThemeColors = typeof Colors.light;
