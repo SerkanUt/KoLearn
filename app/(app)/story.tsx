@@ -86,7 +86,7 @@ export default function StoryScreen() {
   return (
     <ThemedView style={[styles.root, { paddingTop: insets.top + spacing.lg }]}>
       <ScrollView contentContainerStyle={[styles.scroll, { paddingBottom: insets.bottom + 100 }]}>
-        <PageHeader title="Story Studio" subtitle="Weave vocabulary into memorable Korean narratives" />
+        <PageHeader tone="lilac" title="Story Studio" subtitle="Weave vocabulary into memorable Korean narratives" />
 
         <View style={[isWide && styles.columns]}>
           <View style={styles.col}>

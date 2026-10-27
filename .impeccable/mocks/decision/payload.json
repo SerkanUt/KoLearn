@@ -1,0 +1,140 @@
+{
+  "title": "Choose the visual world for KoLearn",
+  "question": "The roll assigned The Red Sheet, built around the Kolearn logo's teal and blush. Keep it, take an alternate, or re-roll.",
+  "options": [
+    {
+      "id": "assigned",
+      "kind": "assigned",
+      "label": "The Red Sheet",
+      "kicker": "THE ROLL",
+      "lineage": "Korean study notebooks and the translucent red memorization sheet (암기 시트)",
+      "thesis": "Reading is a highlighter pass; meanings hide under a translucent sheet until you lift it.",
+      "palette": ["#0B4F5C", "#7CC4C4", "#FFE1D9", "#E4513F"],
+      "materials": ["highlighter wash", "translucent red film", "ruled notebook paper"],
+      "viewport": "Phone Home: today's Naver article in large Hangul, key words highlighted, tap-and-hold a word to lift the red sheet and reveal its English.",
+      "risk": "Sheet metaphor turns into decoration if reveal is not a real, repeatable interaction.",
+      "raised": [
+        { "from": "challenger-specimen", "raise": "Hangul sets at specimen scale against tiny labels; hierarchy comes from size contrast alone." },
+        { "from": "challenger-airport", "raise": "Home shows one next action as the single dominant band, not a dashboard of stats." }
+      ],
+      "wireframe": { "cols": 6, "rows": 12, "regions": [
+        { "label": "large title: Today", "x": 0, "y": 0, "w": 6, "h": 1 },
+        { "label": "article, Hangul at display size, highlights", "x": 0, "y": 1, "w": 6, "h": 5, "accent": true },
+        { "label": "red sheet reveal: word + meaning", "x": 0, "y": 6, "w": 6, "h": 2 },
+        { "label": "next action band: continue reading", "x": 0, "y": 8, "w": 6, "h": 2 },
+        { "label": "native tab bar", "x": 0, "y": 11, "w": 6, "h": 1 }
+      ] }
+    },
+    {
+      "id": "model-pick",
+      "kind": "pick",
+      "label": "Wongoji Manuscript",
+      "kicker": "IMPECCABLE’S PICK",
+      "lineage": "원고지 Korean manuscript paper, one syllable per square",
+      "thesis": "Every Hangul syllable sits in its own square, the way Korean children learn to write.",
+      "palette": ["#0B4F5C", "#7CC4C4", "#FFE1D9", "#FFFFFF"],
+      "materials": ["square grid", "teal rule ink"],
+      "viewport": "Phone Translate: the Korean output set in a syllable grid under the English input.",
+      "risk": "Grid can crowd body text; also the most obvious Hangul-learning idea.",
+      "wireframe": { "cols": 6, "rows": 12, "regions": [
+        { "label": "large title: Translate", "x": 0, "y": 0, "w": 6, "h": 1 },
+        { "label": "English input", "x": 0, "y": 1, "w": 6, "h": 3 },
+        { "label": "syllable grid output", "x": 0, "y": 4, "w": 6, "h": 5, "accent": true },
+        { "label": "history", "x": 0, "y": 9, "w": 6, "h": 2 },
+        { "label": "native tab bar", "x": 0, "y": 11, "w": 6, "h": 1 }
+      ] }
+    },
+    {
+      "id": "challenger-specimen",
+      "kind": "challenger",
+      "catalogId": "variable-font-specimen",
+      "label": "Variable Specimen",
+      "verdict": "competitive",
+      "lineage": "type foundry variable-font specimens",
+      "thesis": "Hangul as the designed alphabet it is, shown at monumental scale with tiny UI labels.",
+      "palette": ["#FFFFFF", "#0B1F24", "#E4513F"],
+      "materials": ["flat paper", "ink black"],
+      "viewport": "One giant syllable, weight slider, grid of related syllables below.",
+      "case": "Holds audience identification (Hangul's design is a draw); loses on clarity because it is a specimen, not a reading app.",
+      "risk": "Becomes a type toy that hides the news and translate tasks.",
+      "wireframe": { "cols": 6, "rows": 12, "regions": [
+        { "label": "giant syllable", "x": 0, "y": 1, "w": 6, "h": 5, "accent": true },
+        { "label": "weight slider", "x": 0, "y": 6, "w": 6, "h": 1 },
+        { "label": "syllable grid", "x": 0, "y": 7, "w": 6, "h": 4 },
+        { "label": "native tab bar", "x": 0, "y": 11, "w": 6, "h": 1 }
+      ] }
+    },
+    {
+      "id": "challenger-airport",
+      "kind": "challenger",
+      "catalogId": "wayfinding-cartography-signage-terminal-yellow-wayfinding",
+      "label": "Airport Wayfinding",
+      "verdict": "declined",
+      "lineage": "international airport sign systems",
+      "palette": ["#FFD400", "#111111"],
+      "materials": ["sign panel"],
+      "case": "Yellow bands lose both axes: learners do not identify with transit signage and it hides reading content.",
+      "kept": "One dominant next decision per screen."
+    },
+    {
+      "id": "challenger-feed",
+      "kind": "challenger",
+      "catalogId": "pop-culture-shelf-vertical-video-feed-surface",
+      "label": "Vertical Feed",
+      "verdict": "declined",
+      "lineage": "short-video feeds",
+      "palette": ["#000000", "#FFFFFF"],
+      "materials": ["full-bleed media"],
+      "case": "Loses both axes: articles are text, and a snap feed fights careful reading.",
+      "kept": "One item owns the screen at a time."
+    },
+    {
+      "id": "challenger-tickets",
+      "kind": "challenger",
+      "catalogId": "vernacular-ephemera-jet-age-ticket-wallet",
+      "label": "Ticket Wallet",
+      "verdict": "declined",
+      "lineage": "jet-age ticket wallets",
+      "palette": ["#1B2A52", "#C8281E", "#FFFFFF"],
+      "materials": ["carbon coupons"],
+      "case": "Loses both axes: travel-ticket nostalgia is unrelated to learning Korean.",
+      "kept": "Used items stamp themselves instead of disappearing."
+    },
+    {
+      "id": "challenger-metro",
+      "kind": "challenger",
+      "catalogId": "digital-design-canon-metro-typographic-tiles",
+      "label": "Metro Tiles",
+      "verdict": "declined",
+      "lineage": "Windows Phone metro tiles",
+      "palette": ["#000000", "#00B7C3", "#FFFFFF"],
+      "materials": ["flat tiles"],
+      "case": "Loses both axes: replaces native navigation with a panorama, which breaks platform rules.",
+      "kept": "Total color commitment on live states."
+    },
+    {
+      "id": "challenger-labanotation",
+      "kind": "challenger",
+      "catalogId": "notation-diagram-systems-labanotation",
+      "label": "Labanotation Score",
+      "verdict": "declined",
+      "lineage": "dance notation scores",
+      "palette": ["#FFFFFF", "#000000"],
+      "materials": ["score paper"],
+      "case": "Loses both axes: dance notation has no tie to reading Korean.",
+      "kept": "Time and length encoded in one clear axis."
+    }
+  ],
+  "reroll": { "registers": ["safer", "bolder"] },
+  "canon": true,
+  "canonCard": {
+    "kind": "canon",
+    "label": "The category standard",
+    "thesis": "A clean Duolingo-style learning app, played straight.",
+    "palette": ["#FFFFFF", "#1F2937", "#58CC02"],
+    "materials": ["rounded cards", "progress rings"],
+    "viewport": "Greeting, streak, lesson cards, native tab bar.",
+    "risk": "Indistinguishable from other language apps by design."
+  },
+  "steer": true
+}

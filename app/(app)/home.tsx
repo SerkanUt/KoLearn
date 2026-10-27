@@ -6,22 +6,21 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import { Badge, StatCard } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
+import { MeaningChip } from "@/components/ui/MeaningChip";
+import { StripeBand } from "@/components/ui/StripeBand";
 import { SkeletonCard } from "@/components/ui/Skeleton";
-import { Colors } from "@/constants/Colors";
+import { Colors, toolStripe } from "@/constants/Colors";
 import { layout, radius, spacing } from "@/constants/Theme";
-import { useBreakpoint } from "@/hooks/useBreakpoint";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { fetchNews } from "@/lib/api";
+import { fetchNews, translateWord } from "@/lib/api";
 import { setArticles } from "@/lib/articles";
 import {
   computeStreak,
   getActivity,
-  getSavedStories,
   getSettings,
   getTranslations,
-  type TranslationEntry
+  type TranslationEntry,
 } from "@/lib/storage";
 
 function greeting() {
@@ -31,45 +30,93 @@ function greeting() {
   return "Good evening";
 }
 
+// Key words are the two longest Hangul tokens in the headline.
+function pickKeyWords(title: string): string[] {
+  const tokens = title
+    .split(/\s+/)
+    .map((t) => t.replace(/[^\p{L}\p{N}]/gu, ""))
+    .filter((t) => /[가-힣]/.test(t) && t.length >= 2);
+  return [...new Set(tokens)].sort((a, b) => b.length - a.length).slice(0, 2);
+}
+
+function HighlightedTitle({ title, keys }: { title: string; keys: string[] }) {
+  const scheme = useColorScheme();
+  const c = Colors[scheme];
+  const parts = title.split(/(\s+)/);
+  return (
+    <ThemedText type="display" numberOfLines={5} style={styles.headline}>
+      {parts.map((part, i) => {
+        const hit = keys.some((k) => part.includes(k));
+        return hit ? (
+          <ThemedText
+            key={i}
+            type="display"
+            style={[styles.headline, { backgroundColor: c.highlight, color: c.highlightText }]}
+          >
+            {part}
+          </ThemedText>
+        ) : (
+          part
+        );
+      })}
+    </ThemedText>
+  );
+}
+
+const destinations = [
+  { title: "Translate", desc: "Any of 16 languages", icon: "translate" as const, href: "/translate", tone: toolStripe.translate },
+  { title: "Daily news", desc: "More articles to read", icon: "newspaper" as const, href: "/daily", tone: toolStripe.daily },
+  { title: "Story", desc: "Turn your words into a story", icon: "auto-stories" as const, href: "/story", tone: toolStripe.story },
+];
+
 export default function HomeScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const { isWide } = useBreakpoint();
   const colorScheme = useColorScheme();
   const c = Colors[colorScheme];
 
   const [name, setName] = useState("Guest");
   const [streak, setStreak] = useState(0);
-  const [translations, setTranslationsCount] = useState(0);
-  const [articlesRead, setArticlesRead] = useState(0);
-  const [recentTranslations, setRecentTranslations] = useState<
-    TranslationEntry[]
-  >([]);
+  const [dates, setDates] = useState<string[]>([]);
+  const [recentTranslations, setRecentTranslations] = useState<TranslationEntry[]>([]);
   const [featuredTitle, setFeaturedTitle] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [meaning, setMeaning] = useState<string | null>(null);
+  const [meaningLoading, setMeaningLoading] = useState(false);
+  const [meaningFailed, setMeaningFailed] = useState(false);
+
+  const keys = featuredTitle ? pickKeyWords(featuredTitle) : [];
+  const primaryKey = keys[0];
+
+  const loadMeaning = useCallback(async (word: string) => {
+    setMeaningLoading(true);
+    setMeaningFailed(false);
+    try {
+      const text = await translateWord(word);
+      if (text) setMeaning(text);
+      else setMeaningFailed(true);
+    } catch {
+      setMeaningFailed(true);
+    } finally {
+      setMeaningLoading(false);
+    }
+  }, []);
 
   const load = useCallback(async () => {
     setLoading(true);
     try {
-      const [settings, activity, history, stories, articles] =
-        await Promise.all([
-          getSettings(),
-          getActivity(),
-          getTranslations(),
-          getSavedStories(),
-          fetchNews().catch(() => []),
-        ]);
+      const [settings, activity, history, articles] = await Promise.all([
+        getSettings(),
+        getActivity(),
+        getTranslations(),
+        fetchNews().catch(() => []),
+      ]);
       setArticles(articles);
       setName(settings.learnerName);
       setStreak(computeStreak(activity.dates));
-      setTranslationsCount(activity.translationsCount);
-      setArticlesRead(activity.articlesReadCount);
+      setDates(activity.dates);
       setRecentTranslations(history.slice(0, 3));
-      if (articles[0]) {
-        setFeaturedTitle(articles[0].title ?? null);
-      }
-      if (stories[0] && history.length === 0) {
-      }
+      setFeaturedTitle(articles[0]?.title ?? null);
     } finally {
       setLoading(false);
     }
@@ -79,184 +126,106 @@ export default function HomeScreen() {
     load();
   }, [load]);
 
-  const quickActions = [
-    {
-      title: "Translate",
-      desc: "Instant translation",
-      icon: "translate" as const,
-      href: "/translate",
-    },
-    {
-      title: "Daily News",
-      desc: "Read in Korean",
-      icon: "newspaper" as const,
-      href: "/daily",
-    },
-    {
-      title: "Story",
-      desc: "Build vocabulary",
-      icon: "auto-stories" as const,
-      href: "/story",
-    },
-  ];
+  useEffect(() => {
+    if (primaryKey) loadMeaning(primaryKey);
+  }, [primaryKey, loadMeaning]);
 
   return (
     <ThemedView style={[styles.root, { paddingTop: insets.top + spacing.lg }]}>
       <ScrollView
-        contentContainerStyle={[
-          styles.scroll,
-          { paddingBottom: insets.bottom + 100 },
-        ]}
-        showsVerticalScrollIndicator={false}
-      >
-        <View style={styles.hero}>
-          <View>
-            <ThemedText type="bodySm" style={{ color: c.textSecondary }}>
-              {greeting()}
-            </ThemedText>
-            <ThemedText type="hero" style={{ marginTop: spacing.xs }}>
-              {name}
-            </ThemedText>
-            <ThemedText
-              type="bodySm"
-              korean
-              style={{ color: c.textSecondary, marginTop: spacing.xs }}
-            >
-              오늘도 한국어 공부 화이팅!
-            </ThemedText>
-          </View>
-          <View
-            style={[styles.streakBadge, { backgroundColor: c.accentMuted }]}
-          >
-            <MaterialIcons
-              name="local-fire-department"
-              size={22}
-              color={c.tint}
-            />
-            <ThemedText type="h2" style={{ color: c.tint }}>
-              {streak}
-            </ThemedText>
-            <ThemedText type="caption" style={{ color: c.tint }}>
-              day streak
-            </ThemedText>
-          </View>
-        </View>
-
-        <View style={[styles.statsRow, isWide && styles.statsRowWide]}>
-          <StatCard
-            label="Translations"
-            value={translations}
-            icon={<MaterialIcons name="translate" size={20} color={c.tint} />}
-          />
-          <StatCard
-            label="Articles read"
-            value={articlesRead}
-            icon={<MaterialIcons name="menu-book" size={20} color={c.tint} />}
-          />
-        </View>
-
-        <ThemedText type="label" style={styles.sectionTitle}>
-          Quick actions
+        contentContainerStyle={[styles.scroll, { paddingBottom: insets.bottom + 100 }]}
+        showsVerticalScrollIndicator={false}>
+        <ThemedText type="bodySm" style={{ color: c.textSecondary }}>
+          {greeting()}, {name}
+          {streak > 0 ? ` · ${streak}-day streak` : ""}
         </ThemedText>
-        <View style={[styles.actionsRow, isWide && styles.actionsRowWide]}>
-          {quickActions.map((action) => (
-            <Pressable
-              key={action.href}
-              onPress={() => router.push(action.href as never)}
-              style={[
-                styles.actionCard,
-                { backgroundColor: c.card, borderColor: c.border },
-              ]}
-            >
-              <View
-                style={[styles.actionIcon, { backgroundColor: c.accentMuted }]}
-              >
-                <MaterialIcons name={action.icon} size={22} color={c.tint} />
-              </View>
-              <ThemedText type="label">{action.title}</ThemedText>
-              <ThemedText type="caption" style={{ color: c.textSecondary }}>
-                {action.desc}
-              </ThemedText>
-            </Pressable>
-          ))}
-        </View>
+        <ThemedText type="hero" style={styles.title}>
+          오늘 <ThemedText type="hero" style={{ color: c.textSecondary }}>Today</ThemedText>
+        </ThemedText>
+        <StripeBand dates={dates} />
 
         {loading ? (
           <SkeletonCard />
         ) : featuredTitle ? (
-          <>
-            <ThemedText type="label" style={styles.sectionTitle}>
-              Featured article
-            </ThemedText>
-            <Pressable
-              onPress={() => router.push("/daily/0" as never)}
-              style={[
-                styles.featured,
-                { backgroundColor: c.card, borderColor: c.border },
-              ]}
-            >
-              <Badge label="Today's pick" />
-              <ThemedText
-                type="h2"
-                korean
-                style={{ marginTop: spacing.md }}
-                numberOfLines={2}
-              >
-                {featuredTitle}
-              </ThemedText>
-              <View style={styles.featuredFooter}>
-                <ThemedText type="bodySm" style={{ color: c.tint }}>
-                  Read now
-                </ThemedText>
-                <MaterialIcons name="arrow-forward" size={16} color={c.tint} />
+          <View style={styles.today}>
+            <HighlightedTitle title={featuredTitle} keys={keys} />
+            {primaryKey ? (
+              <View style={styles.reveal}>
+                <MeaningChip
+                  word={primaryKey}
+                  meaning={meaning}
+                  loading={meaningLoading}
+                  failed={meaningFailed}
+                  onRetry={() => loadMeaning(primaryKey)}
+                />
               </View>
-            </Pressable>
-          </>
-        ) : null}
-
-        <ThemedText type="label" style={styles.sectionTitle}>
-          Recent activity
-        </ThemedText>
-        {recentTranslations.length === 0 ? (
-          <View
-            style={[
-              styles.emptyRecent,
-              { backgroundColor: c.card, borderColor: c.border },
-            ]}
-          >
-            <ThemedText type="bodySm" style={{ color: c.textSecondary }}>
-              No translations yet. Start with a quick phrase!
-            </ThemedText>
+            ) : null}
             <Button
-              label="Open Translate"
-              onPress={() => router.push("/translate" as never)}
-              style={{ marginTop: spacing.md }}
-              size="sm"
+              label="Continue reading"
+              icon="arrow-forward"
+              onPress={() => router.push("/daily/0" as never)}
+              style={styles.cta}
             />
           </View>
         ) : (
-          recentTranslations.map((entry) => (
-            <View
-              key={entry.id}
-              style={[
-                styles.recentItem,
-                { backgroundColor: c.card, borderColor: c.border },
-              ]}
-            >
-              <ThemedText type="bodySm" numberOfLines={1}>
-                {entry.source}
-              </ThemedText>
-              <ThemedText
-                type="bodySm"
-                korean
-                style={{ color: c.textSecondary, marginTop: spacing.xs }}
-                numberOfLines={1}
-              >
-                {entry.result}
-              </ThemedText>
-            </View>
-          ))
+          <View style={[styles.empty, { borderColor: c.border }]}>
+            <ThemedText type="h2">No article today</ThemedText>
+            <ThemedText type="bodySm" style={{ color: c.textSecondary, marginTop: spacing.xs }}>
+              Check that the backend is running, then try again.
+            </ThemedText>
+            <Button label="Try again" variant="secondary" onPress={load} style={{ marginTop: spacing.lg }} />
+          </View>
         )}
+
+        <View style={styles.list}>
+          {destinations.map((d, i) => (
+            <Pressable
+              key={d.href}
+              accessibilityRole="link"
+              accessibilityLabel={`${d.title}. ${d.desc}`}
+              onPress={() => router.push(d.href as never)}
+              style={({ pressed }) => [
+                styles.listRow,
+                {
+                  borderTopColor: c.border,
+                  borderTopWidth: i === 0 ? StyleSheet.hairlineWidth : 0,
+                  borderBottomColor: c.border,
+                  opacity: pressed ? 0.6 : 1,
+                },
+              ]}>
+              <View style={[styles.iconDisc, { backgroundColor: c[d.tone] }]}>
+                <MaterialIcons name={d.icon} size={22} color={c.text} />
+              </View>
+              <View style={styles.listText}>
+                <ThemedText type="body" style={{ fontWeight: "600" }}>
+                  {d.title}
+                </ThemedText>
+                <ThemedText type="caption" style={{ color: c.textSecondary }}>
+                  {d.desc}
+                </ThemedText>
+              </View>
+              <MaterialIcons name="chevron-right" size={22} color={c.icon} />
+            </Pressable>
+          ))}
+        </View>
+
+        {recentTranslations.length > 0 ? (
+          <View style={styles.recent}>
+            <ThemedText type="label" style={{ color: c.textSecondary, marginBottom: spacing.sm }}>
+              Recently translated
+            </ThemedText>
+            {recentTranslations.map((entry) => (
+              <View key={entry.id} style={[styles.recentItem, { borderBottomColor: c.border }]}>
+                <ThemedText type="bodySm" numberOfLines={1} style={{ color: c.textSecondary }}>
+                  {entry.source}
+                </ThemedText>
+                <ThemedText type="body" korean numberOfLines={1}>
+                  {entry.result}
+                </ThemedText>
+              </View>
+            ))}
+          </View>
+        ) : null}
       </ScrollView>
     </ThemedView>
   );
@@ -266,67 +235,35 @@ const styles = StyleSheet.create({
   root: { flex: 1 },
   scroll: {
     paddingHorizontal: spacing.xl,
-    maxWidth: layout.maxWidthDashboard,
+    maxWidth: layout.maxWidthReader,
     alignSelf: "center",
     width: "100%",
   },
-  hero: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    marginBottom: spacing.xl,
-  },
-  streakBadge: {
-    alignItems: "center",
-    padding: spacing.lg,
+  title: { marginTop: spacing.xs, marginBottom: spacing.lg },
+  today: { marginBottom: spacing.xxl },
+  headline: { fontSize: 34, lineHeight: 52 },
+  reveal: { marginTop: spacing.xl },
+  cta: { marginTop: spacing.xl },
+  empty: {
+    padding: spacing.xl,
     borderRadius: radius.lg,
-    minWidth: 90,
+    borderWidth: 1,
+    marginBottom: spacing.xxl,
   },
-  statsRow: { flexDirection: "row", gap: spacing.md, marginBottom: spacing.xl },
-  statsRowWide: { maxWidth: 400 },
-  sectionTitle: { marginBottom: spacing.md },
-  actionsRow: {
-    flexDirection: "column",
+  list: { marginBottom: spacing.xl },
+  listRow: {
+    flexDirection: "row",
+    alignItems: "center",
     gap: spacing.md,
-    marginBottom: spacing.xl,
+    minHeight: 56,
+    paddingVertical: spacing.sm,
+    borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  actionsRowWide: { flexDirection: "row" },
-  actionCard: {
-    flex: 1,
-    padding: spacing.lg,
-    borderRadius: radius.lg,
-    borderWidth: 1,
-  },
-  actionIcon: {
-    width: 40,
-    height: 40,
-    borderRadius: radius.md,
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: spacing.sm,
-  },
-  featured: {
-    padding: spacing.xl,
-    borderRadius: radius.lg,
-    borderWidth: 1,
-    marginBottom: spacing.xl,
-  },
-  featuredFooter: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: spacing.xs,
-    marginTop: spacing.lg,
-  },
-  emptyRecent: {
-    padding: spacing.xl,
-    borderRadius: radius.lg,
-    borderWidth: 1,
-    alignItems: "center",
-  },
+  listText: { flex: 1 },
+  iconDisc: { width: 44, height: 44, borderRadius: radius.full, alignItems: 'center', justifyContent: 'center' },
+  recent: { marginTop: spacing.lg },
   recentItem: {
-    padding: spacing.lg,
-    borderRadius: radius.md,
-    borderWidth: 1,
-    marginBottom: spacing.sm,
+    paddingVertical: spacing.sm,
+    borderBottomWidth: StyleSheet.hairlineWidth,
   },
 });

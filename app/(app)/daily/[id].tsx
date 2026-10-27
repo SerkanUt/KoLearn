@@ -1,4 +1,3 @@
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { Linking, Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
@@ -101,7 +100,13 @@ export default function ArticleReaderScreen() {
             if (!trimmed) return <ThemedText key={i}> </ThemedText>;
             return (
               <Pressable key={i} onPress={() => translateWord(trimmed)}>
-                <ThemedText korean style={[styles.word, { fontFamily: fonts.korean, color: c.text }]}>
+                <ThemedText
+                  korean
+                  style={[
+                    styles.word,
+                    { fontFamily: fonts.korean, color: c.text },
+                    selectedWord === trimmed && { backgroundColor: c.highlight, color: c.highlightText },
+                  ]}>
                   {segment}
                 </ThemedText>
               </Pressable>
@@ -145,7 +150,7 @@ const styles = StyleSheet.create({
   title: { marginTop: spacing.sm, lineHeight: 36 },
   divider: { height: 1, marginVertical: spacing.xl },
   body: { flexDirection: 'row', flexWrap: 'wrap' },
-  word: { fontSize: 18, lineHeight: 32 },
+  word: { fontSize: 20, lineHeight: 36 },
   modalBg: { flex: 1, justifyContent: 'flex-end' },
   sheet: {
     padding: spacing.xl,

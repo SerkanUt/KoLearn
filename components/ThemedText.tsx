@@ -6,7 +6,7 @@ import { useThemeColor } from '@/hooks/useThemeColor';
 export type ThemedTextProps = TextProps & {
   lightColor?: string;
   darkColor?: string;
-  type?: 'default' | 'hero' | 'h1' | 'h2' | 'body' | 'bodySm' | 'caption' | 'label' | 'defaultSemiBold' | 'title' | 'subtitle' | 'link';
+  type?: 'default' | 'display' | 'hero' | 'h1' | 'h2' | 'body' | 'bodySm' | 'caption' | 'label' | 'defaultSemiBold' | 'title' | 'subtitle' | 'link';
   korean?: boolean;
 };
 
@@ -18,7 +18,7 @@ export function ThemedText({
   korean = false,
   ...rest
 }: ThemedTextProps) {
-  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
+  const color = useThemeColor({ light: lightColor, dark: darkColor }, type === 'link' ? 'tint' : 'text');
   const fontFamily = korean ? fonts.korean : fonts.sans;
 
   return (
@@ -26,6 +26,7 @@ export function ThemedText({
       style={[
         { color, fontFamily },
         type === 'default' ? styles.default : undefined,
+        type === 'display' ? styles.display : undefined,
         type === 'hero' ? styles.hero : undefined,
         type === 'h1' ? styles.h1 : undefined,
         type === 'h2' ? styles.h2 : undefined,
@@ -46,8 +47,9 @@ export function ThemedText({
 
 const styles = StyleSheet.create({
   default: { ...typography.body, fontFamily: fonts.sans },
-  hero: { ...typography.hero, fontFamily: fonts.sansBold },
-  h1: { ...typography.h1, fontFamily: fonts.sansBold },
+  display: { ...typography.display, fontFamily: fonts.display },
+  hero: { ...typography.hero, fontFamily: fonts.display },
+  h1: { ...typography.h1, fontFamily: fonts.display },
   h2: { ...typography.h2, fontFamily: fonts.sansSemiBold },
   body: { ...typography.body, fontFamily: fonts.sans },
   bodySm: { ...typography.bodySm, fontFamily: fonts.sans },
@@ -56,5 +58,5 @@ const styles = StyleSheet.create({
   defaultSemiBold: { ...typography.body, fontFamily: fonts.sansSemiBold, fontWeight: '600' },
   title: { fontSize: 32, fontWeight: '700', lineHeight: 32, fontFamily: fonts.sansBold },
   subtitle: { fontSize: 20, fontWeight: '600', fontFamily: fonts.sansSemiBold },
-  link: { ...typography.body, fontFamily: fonts.sansMedium, color: '#4338CA' },
+  link: { ...typography.body, fontFamily: fonts.sansMedium },
 });

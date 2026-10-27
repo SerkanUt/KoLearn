@@ -1,7 +1,7 @@
 import { StyleSheet, View, type ViewStyle } from 'react-native';
 
 import { ThemedText } from '@/components/ThemedText';
-import { Colors } from '@/constants/Colors';
+import { Colors, type StripeName } from '@/constants/Colors';
 import { radius, spacing } from '@/constants/Theme';
 import { useColorScheme } from '@/hooks/useColorScheme';
 
@@ -25,7 +25,9 @@ export function PageHeader({
   subtitle,
   action,
   style,
+  tone,
 }: {
+  tone?: StripeName;
   title: string;
   subtitle?: string;
   action?: React.ReactNode;
@@ -38,6 +40,7 @@ export function PageHeader({
     <View style={[styles.header, style]}>
       <View style={styles.textCol}>
         <ThemedText type="h1">{title}</ThemedText>
+        {tone ? <View style={[styles.tone, { backgroundColor: c[tone] }]} /> : null}
         {subtitle ? (
           <ThemedText type="bodySm" style={{ color: c.textSecondary, marginTop: spacing.xs }}>
             {subtitle}
@@ -100,6 +103,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.xl,
   },
   textCol: { flex: 1 },
+  tone: { height: 8, width: 56, borderRadius: radius.full, marginTop: spacing.sm },
   stat: {
     flex: 1,
     padding: spacing.lg,

@@ -1,5 +1,4 @@
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { LinearGradient } from 'expo-linear-gradient';
 import { ActivityIndicator, Pressable, StyleSheet, type ViewStyle } from 'react-native';
 
 import { ThemedText } from '@/components/ThemedText';
@@ -59,15 +58,14 @@ export function Button({
           styles.secondary,
           {
             paddingVertical: pad,
-            borderColor: c.border,
-            backgroundColor: c.card,
+            backgroundColor: c.accentMuted,
             opacity: isDisabled ? 0.5 : pressed ? 0.85 : 1,
           },
           style,
         ]}>
         {loading ? <ActivityIndicator size="small" color={c.tint} /> : null}
-        {!loading && icon ? <MaterialIcons name={icon} size={18} color={c.text} /> : null}
-        <ThemedText type="label">{label}</ThemedText>
+        {!loading && icon ? <MaterialIcons name={icon} size={18} color={c.tint} /> : null}
+        <ThemedText type="label" style={{ color: c.tint }}>{label}</ThemedText>
       </Pressable>
     );
   }
@@ -76,16 +74,20 @@ export function Button({
     <Pressable
       onPress={onPress}
       disabled={isDisabled}
-      style={({ pressed }) => [styles.wrapper, { opacity: isDisabled ? 0.5 : pressed ? 0.9 : 1 }, style]}>
-      <LinearGradient
-        colors={[c.tint, colorScheme === 'light' ? '#3730A3' : '#6366F1']}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-        style={[styles.primary, { paddingVertical: pad }]}>
-        {loading ? <ActivityIndicator size="small" color="#fff" /> : null}
-        {!loading && icon ? <MaterialIcons name={icon} size={20} color="#fff" /> : null}
-        <ThemedText style={styles.primaryText}>{label}</ThemedText>
-      </LinearGradient>
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      style={({ pressed }) => [
+        styles.primary,
+        {
+          paddingVertical: pad,
+          backgroundColor: c.tint,
+          opacity: isDisabled ? 0.5 : pressed ? 0.88 : 1,
+        },
+        style,
+      ]}>
+      {loading ? <ActivityIndicator size="small" color={c.onTint} /> : null}
+      {!loading && icon ? <MaterialIcons name={icon} size={20} color={c.onTint} /> : null}
+      <ThemedText style={[styles.primaryText, { color: c.onTint }]}>{label}</ThemedText>
     </Pressable>
   );
 }
@@ -111,23 +113,24 @@ export function IconButton({
 }
 
 const styles = StyleSheet.create({
-  wrapper: { borderRadius: radius.md, overflow: 'hidden' },
   primary: {
+    borderRadius: radius.full,
+    minHeight: 52,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: spacing.sm,
     paddingHorizontal: spacing.lg,
   },
-  primaryText: { color: '#fff', fontSize: 15, fontWeight: '600', fontFamily: fonts.sansSemiBold },
+  primaryText: { fontSize: 15, fontWeight: '600', fontFamily: fonts.sansSemiBold },
   secondary: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: spacing.sm,
     paddingHorizontal: spacing.lg,
-    borderRadius: radius.md,
-    borderWidth: 1,
+    borderRadius: radius.full,
+    minHeight: 52,
   },
   ghost: {
     flexDirection: 'row',

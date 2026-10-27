@@ -1,0 +1,153 @@
+{
+  "title": "Choose the new world for KoLearn",
+  "question": "Pastel and fun Korean, light and airy. The roll assigned Saekdong Sleeve. Keep it, take an alternate, or re-roll.",
+  "options": [
+    {
+      "id": "assigned",
+      "kind": "assigned",
+      "label": "Saekdong Sleeve",
+      "kicker": "THE ROLL",
+      "lineage": "색동 rainbow-striped hanbok sleeves, in sugar pastels",
+      "thesis": "Every study day weaves one more pastel stripe into your sleeve, and each tool owns a stripe color.",
+      "palette": ["#FFC9D6", "#FFE9A8", "#BFEBD6", "#BCDFFF", "#D9C8FF"],
+      "materials": ["flat pastel stripes", "cream ground", "rounded Hangul display"],
+      "viewport": "Phone Today: a woven stripe band for the streak, big rounded Hangul headline, tap-to-reveal meaning chip, one dominant Continue button, native tab bar tinted per tool.",
+      "risk": "Stripes turn into wallpaper if they do not carry real state like streak and active tool.",
+      "raised": [
+        { "from": "challenger-warm", "raise": "The saturated action color appears only on things you can press; stripes are never tappable." },
+        { "from": "challenger-zoo", "raise": "Flat unmodulated color fields with no gradients or shadows; overshoot-and-settle motion at 0.4s." }
+      ],
+      "wireframe": { "cols": 6, "rows": 12, "regions": [
+        { "label": "stripe band: this week's streak", "x": 0, "y": 0, "w": 6, "h": 1, "accent": true },
+        { "label": "large title: 오늘 / Today", "x": 0, "y": 1, "w": 6, "h": 1 },
+        { "label": "article headline, rounded Hangul", "x": 0, "y": 2, "w": 6, "h": 4 },
+        { "label": "meaning chip (tap to reveal)", "x": 0, "y": 6, "w": 6, "h": 1 },
+        { "label": "Continue reading", "x": 0, "y": 8, "w": 6, "h": 1, "accent": true },
+        { "label": "tool rows", "x": 0, "y": 9, "w": 6, "h": 2 },
+        { "label": "native tab bar", "x": 0, "y": 11, "w": 6, "h": 1 }
+      ] }
+    },
+    {
+      "id": "model-pick",
+      "kind": "pick",
+      "label": "Four-Cut Photobooth",
+      "kicker": "IMPECCABLE’S PICK",
+      "lineage": "인생네컷 photobooth strips with pastel frames",
+      "thesis": "Each lesson is a four-cut strip: word, sentence, meaning, you.",
+      "palette": ["#FFD6E7", "#C9E7FF", "#FFF3B8", "#FFFFFF"],
+      "materials": ["pastel frame", "white photo borders"],
+      "viewport": "Phone Today: today's article as a vertical four-frame strip on a pastel backdrop.",
+      "risk": "Familiar K-pop idea; frames can crowd Hangul text.",
+      "wireframe": { "cols": 6, "rows": 12, "regions": [
+        { "label": "title", "x": 0, "y": 0, "w": 6, "h": 1 },
+        { "label": "frame 1: headline", "x": 1, "y": 1, "w": 4, "h": 2, "accent": true },
+        { "label": "frame 2: key word", "x": 1, "y": 3, "w": 4, "h": 2 },
+        { "label": "frame 3: meaning", "x": 1, "y": 5, "w": 4, "h": 2 },
+        { "label": "frame 4: your note", "x": 1, "y": 7, "w": 4, "h": 2 },
+        { "label": "Continue", "x": 0, "y": 9, "w": 6, "h": 1 },
+        { "label": "native tab bar", "x": 0, "y": 11, "w": 6, "h": 1 }
+      ] }
+    },
+    {
+      "id": "challenger-warm",
+      "kind": "challenger",
+      "catalogId": "digital-design-canon-warm-consumer-app-surface",
+      "label": "Warm Consumer App",
+      "verdict": "competitive",
+      "lineage": "friendly consumer app surfaces",
+      "thesis": "Soft white cards on a warm ground, one bright color only where you can act.",
+      "palette": ["#FFF4EC", "#FFFFFF", "#FF7A93"],
+      "materials": ["soft cards", "large radii"],
+      "viewport": "Single column of friendly cards with a bottom bar.",
+      "case": "Wins on clarity and reads as a real product; loses on audience since it has no Korean identity.",
+      "risk": "Indistinguishable from other soft-pastel apps.",
+      "wireframe": { "cols": 6, "rows": 12, "regions": [
+        { "label": "title", "x": 0, "y": 0, "w": 6, "h": 1 },
+        { "label": "article card", "x": 0, "y": 1, "w": 6, "h": 4, "accent": true },
+        { "label": "tool card", "x": 0, "y": 5, "w": 6, "h": 2 },
+        { "label": "tool card", "x": 0, "y": 7, "w": 6, "h": 2 },
+        { "label": "native tab bar", "x": 0, "y": 11, "w": 6, "h": 1 }
+      ] }
+    },
+    {
+      "id": "challenger-zoo",
+      "kind": "challenger",
+      "catalogId": "aww2-zoo-gardens-guide-map",
+      "label": "Garden Guide Map",
+      "verdict": "competitive",
+      "lineage": "zoo and gardens guide maps",
+      "thesis": "Each tool is a swelling lobe of flat pastel with capsule controls.",
+      "palette": ["#BFE8A0", "#F5F1E4", "#FFB3A6", "#BFE0FF"],
+      "materials": ["flat color lobes", "capsules"],
+      "viewport": "One big lobe holds today's article, capsule buttons in pastel.",
+      "case": "Holds the fun pastel feel; loses on clarity because organic lobes fight a reading layout.",
+      "risk": "Lobes crowd Hangul text and can break native list conventions.",
+      "wireframe": { "cols": 6, "rows": 12, "regions": [
+        { "label": "lobe: today", "x": 0, "y": 1, "w": 6, "h": 5, "accent": true },
+        { "label": "capsule actions", "x": 0, "y": 6, "w": 6, "h": 1 },
+        { "label": "lobe: tools", "x": 0, "y": 7, "w": 6, "h": 3 },
+        { "label": "native tab bar", "x": 0, "y": 11, "w": 6, "h": 1 }
+      ] }
+    },
+    {
+      "id": "challenger-feed",
+      "kind": "challenger",
+      "catalogId": "pop-culture-shelf-vertical-video-feed-surface",
+      "label": "Vertical Feed",
+      "verdict": "declined",
+      "lineage": "short-video feeds",
+      "palette": ["#000000", "#FFFFFF"],
+      "materials": ["full-bleed media"],
+      "case": "Loses both axes: dark, media-first and wrong for careful reading.",
+      "kept": "One item owns the screen at a time."
+    },
+    {
+      "id": "challenger-laban",
+      "kind": "challenger",
+      "catalogId": "notation-diagram-systems-labanotation",
+      "label": "Labanotation Score",
+      "verdict": "declined",
+      "lineage": "dance notation",
+      "palette": ["#FFFFFF", "#000000"],
+      "materials": ["score paper"],
+      "case": "Loses both axes: black-and-white notation is neither pastel nor Korean.",
+      "kept": "Time encoded on one clear axis."
+    },
+    {
+      "id": "challenger-botanical",
+      "kind": "challenger",
+      "catalogId": "editorial-sequence-montage-botanical-folio-season",
+      "label": "Botanical Folio",
+      "verdict": "declined",
+      "lineage": "botanical plates",
+      "palette": ["#F4EEDD", "#2F6B3A", "#B3261E"],
+      "materials": ["cream plates"],
+      "case": "Loses both axes: cream and serif plates are quiet, not fun or Korean.",
+      "kept": "Fixed scale so stages compare cleanly."
+    },
+    {
+      "id": "challenger-specimen",
+      "kind": "challenger",
+      "catalogId": "variable-font-specimen",
+      "label": "Variable Specimen",
+      "verdict": "declined",
+      "lineage": "type specimens",
+      "palette": ["#FFFFFF", "#111111"],
+      "materials": ["flat paper"],
+      "case": "Loses both axes: austere ink-on-white, a type toy not a learning app.",
+      "kept": "Hangul at monumental scale against tiny labels."
+    }
+  ],
+  "reroll": { "registers": ["safer", "bolder"] },
+  "canon": true,
+  "canonCard": {
+    "kind": "canon",
+    "label": "The category standard",
+    "thesis": "A clean pastel language-learning app, played straight.",
+    "palette": ["#FFFFFF", "#1F2937", "#7CC4C4"],
+    "materials": ["rounded cards", "progress rings"],
+    "viewport": "Greeting, streak, lesson cards, native tab bar.",
+    "risk": "Indistinguishable from other language apps by design."
+  },
+  "steer": true
+}

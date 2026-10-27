@@ -9,16 +9,17 @@ export const spacing = {
 } as const;
 
 export const radius = {
-  sm: 8,
-  md: 12,
-  lg: 16,
-  xl: 20,
+  sm: 10,
+  md: 16,
+  lg: 22,
+  xl: 28,
   full: 9999,
 } as const;
 
 export const typography = {
-  hero: { fontSize: 32, lineHeight: 40, fontWeight: '700' as const },
-  h1: { fontSize: 24, lineHeight: 32, fontWeight: '700' as const },
+  display: { fontSize: 34, lineHeight: 50, fontWeight: '400' as const },
+  hero: { fontSize: 36, lineHeight: 44, fontWeight: '400' as const },
+  h1: { fontSize: 28, lineHeight: 36, fontWeight: '400' as const },
   h2: { fontSize: 20, lineHeight: 28, fontWeight: '600' as const },
   body: { fontSize: 16, lineHeight: 24, fontWeight: '400' as const },
   bodySm: { fontSize: 14, lineHeight: 20, fontWeight: '400' as const },
@@ -35,6 +36,7 @@ export const layout = {
 } as const;
 
 export const fonts = {
+  display: 'Jua_400Regular',
   sans: 'Inter_400Regular',
   sansMedium: 'Inter_500Medium',
   sansSemiBold: 'Inter_600SemiBold',

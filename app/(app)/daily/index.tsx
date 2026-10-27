@@ -90,7 +90,7 @@ export default function DailyIndexScreen() {
       <ScrollView
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => load(true)} tintColor={c.tint} />}
         contentContainerStyle={[styles.scroll, { paddingBottom: insets.bottom + 100 }]}>
-        <PageHeader title="Daily News" subtitle="Read real Korean articles and build comprehension" />
+        <PageHeader tone="rose" title="Daily News" subtitle="Read real Korean articles and build comprehension" />
 
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.filters}>
           {filters.map((f) => (

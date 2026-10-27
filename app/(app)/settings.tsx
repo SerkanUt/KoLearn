@@ -54,7 +54,7 @@ export default function SettingsScreen() {
   return (
     <ThemedView style={[styles.root, { paddingTop: insets.top + spacing.lg }]}>
       <ScrollView contentContainerStyle={[styles.scroll, { paddingBottom: insets.bottom + 100 }]}>
-        <PageHeader title="Settings" subtitle="Configure your learning environment" />
+        <PageHeader tone="mint" title="Settings" subtitle="Configure your learning environment" />
 
         <View style={[styles.section, { backgroundColor: c.card, borderColor: c.border }]}>
           <ThemedText type="label">Connection</ThemedText>

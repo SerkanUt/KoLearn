@@ -169,6 +169,7 @@ export default function TranslateScreen() {
         ]}
       >
         <PageHeader
+          tone="sky"
           title="Translate"
           subtitle="Professional-grade translation between Korean and 15+ languages"
           action={

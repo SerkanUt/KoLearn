@@ -4,6 +4,7 @@ import {
   Inter_600SemiBold,
   Inter_700Bold,
 } from '@expo-google-fonts/inter';
+import { Jua_400Regular } from '@expo-google-fonts/jua';
 import {
   NotoSansKR_400Regular,
   NotoSansKR_500Medium,
@@ -66,6 +67,7 @@ export default function RootLayout() {
     NotoSansKR_400Regular,
     NotoSansKR_500Medium,
     NotoSansKR_700Bold,
+    Jua_400Regular,
   });
 
   if (!loaded) return null;

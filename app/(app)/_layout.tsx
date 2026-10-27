@@ -7,8 +7,8 @@ import { Sidebar } from '@/components/layout/Sidebar';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import TabBarBackground from '@/components/ui/TabBarBackground';
-import { Colors } from '@/constants/Colors';
-import { layout, spacing } from '@/constants/Theme';
+import { Colors, toolStripe } from '@/constants/Colors';
+import { spacing } from '@/constants/Theme';
 import { useBreakpoint } from '@/hooks/useBreakpoint';
 import { useColorScheme } from '@/hooks/useColorScheme';
 
@@ -19,7 +19,7 @@ function MobileTabs() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: c.tabIconSelected,
+        tabBarActiveTintColor: c.text,
         tabBarInactiveTintColor: c.tabIconDefault,
         headerShown: false,
         tabBarButton: HapticTab,
@@ -27,7 +27,7 @@ function MobileTabs() {
         tabBarStyle: {
           backgroundColor: c.card,
           borderTopColor: c.border,
-          height: Platform.OS === 'ios' ? 88 : 68,
+          height: Platform.OS === 'ios' ? 88 : 72,
           paddingTop: spacing.sm,
           ...Platform.select({ ios: { position: 'absolute' }, default: {} }),
         },
@@ -35,6 +35,7 @@ function MobileTabs() {
       <Tabs.Screen
         name="home"
         options={{
+          tabBarActiveBackgroundColor: c[toolStripe.home],
           title: 'Home',
           tabBarIcon: ({ color }) => <IconSymbol size={24} name="house.fill" color={color} />,
         }}
@@ -42,6 +43,7 @@ function MobileTabs() {
       <Tabs.Screen
         name="translate"
         options={{
+          tabBarActiveBackgroundColor: c[toolStripe.translate],
           title: 'Translate',
           tabBarIcon: ({ color }) => <IconSymbol size={24} name="translate" color={color} />,
         }}
@@ -49,6 +51,7 @@ function MobileTabs() {
       <Tabs.Screen
         name="daily"
         options={{
+          tabBarActiveBackgroundColor: c[toolStripe.daily],
           title: 'Daily',
           tabBarIcon: ({ color }) => <IconSymbol size={24} name="calendar" color={color} />,
         }}
@@ -56,6 +59,7 @@ function MobileTabs() {
       <Tabs.Screen
         name="story"
         options={{
+          tabBarActiveBackgroundColor: c[toolStripe.story],
           title: 'Story',
           tabBarIcon: ({ color }) => <IconSymbol size={24} name="book.fill" color={color} />,
         }}
@@ -63,6 +67,7 @@ function MobileTabs() {
       <Tabs.Screen
         name="settings"
         options={{
+          tabBarActiveBackgroundColor: c[toolStripe.settings],
           title: 'More',
           tabBarIcon: ({ color }) => <IconSymbol size={24} name="chevron.right" color={color} />,
         }}

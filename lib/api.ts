@@ -35,3 +35,11 @@ export async function pingBackend(): Promise<boolean> {
     return false;
   }
 }
+
+export async function translateWord(word: string): Promise<string> {
+  const res = await fetch(
+    `https://api.mymemory.translated.net/get?q=${encodeURIComponent(word)}&langpair=ko|en`
+  );
+  const data = await res.json();
+  return data.responseData?.translatedText ?? '';
+}
